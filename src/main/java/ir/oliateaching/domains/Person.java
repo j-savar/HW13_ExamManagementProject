@@ -27,6 +27,8 @@ public abstract class Person extends BaseDomain<Long> {
     public static final String FIRST_NAME_COLUMN = "first_name";
     public static final String LAST_NAME_COLUMN = "last_name";
     public static final String BIRTH_DATE_COLUMN = "birth_date";
+    public static final String USERNAME_COLUMN = "username";
+    public static final String PASSWORD_COLUMN = "password";
 
 
     @Column(name = FIRST_NAME_COLUMN, nullable = false, length = 50)
@@ -37,4 +39,10 @@ public abstract class Person extends BaseDomain<Long> {
 
     @Column(name = BIRTH_DATE_COLUMN)
     private LocalDate birthDate;
+
+    @Column(name = USERNAME_COLUMN, nullable = false, length = 50)
+    private String username;
+
+    @Column(name = PASSWORD_COLUMN, nullable = false, length = 50)
+    private String password;
 }
