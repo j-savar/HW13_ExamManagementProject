@@ -6,6 +6,7 @@ import ir.oliateaching.repositories.base.AbstractCrudRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Root;
 
 import java.time.LocalDate;
@@ -38,17 +39,30 @@ public class CourseRepositoryImpl extends AbstractCrudRepository<Course, Long>
 
     @Override
     public List<Course> findByStatus(CourseStatus status) {
-        return List.of();
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Course> query = cb.createQuery(getEntityClass());
+        Root<Course> tRoot = query.from(getEntityClass());
+        query.where(cb.equal(tRoot.get(Course_.status), status));
+        return entityManager.createQuery(query).getResultList();
     }
 
     @Override
     public List<Course> findByTeacher(Long teacherId) {
-        return List.of();
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Course> query = cb.createQuery(getEntityClass());
+        Root<Course> tRoot = query.from(getEntityClass());
+        query.where(cb.equal(tRoot.get(Course_.teacher).get(Teacher.ID_COLUMN), teacherId));
+        return entityManager.createQuery(query).getResultList();
     }
 
     @Override
     public List<Course> findByStudent(Long studentId) {
-        return List.of();
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Course> query = cb.createQuery(getEntityClass());
+        Root<Course> tRoot = query.from(getEntityClass());
+        Join<Course, Student> studentJoin = tRoot.join(Course_.students);
+        query.where(cb.equal(studentJoin.get(Student_.id), studentId));
+        return entityManager.createQuery(query).getResultList();
     }
 
     @Override
