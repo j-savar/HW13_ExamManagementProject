@@ -1,7 +1,6 @@
 package ir.oliateaching.dto;
 
 
-import ir.oliateaching.enums.AcademicDegree;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
