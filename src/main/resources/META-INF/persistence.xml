@@ -8,6 +8,11 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
         <class>ir.oliateaching.domains.base.BaseDomain</class>
+        <class>ir.oliateaching.domains.Course</class>
+        <class>ir.oliateaching.domains.Student</class>
+        <class>ir.oliateaching.domains.Teacher</class>
+        <class>ir.oliateaching.domains.Admin</class>
+        <class>ir.oliateaching.domains.User</class>
 
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
 
