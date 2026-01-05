@@ -2,20 +2,19 @@ package ir.oliateaching.repositories.base;
 
 import ir.oliateaching.domains.base.BaseDomain;
 
-import ir.oliateaching.enums.UserRole;
-import ir.oliateaching.enums.UserStatus;
-import ir.oliateaching.domains.User;
-import ir.oliateaching.utils.ApplicationContext;
+
 import ir.oliateaching.utils.JpaUtil;
 import jakarta.persistence.EntityManager;
 import ir.oliateaching.domains.base.BaseDomain_;
-import jakarta.persistence.TypedQuery;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaDelete;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
 
+
+import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -26,6 +25,15 @@ public abstract class AbstractCrudRepository<T extends BaseDomain<ID>, ID extend
         implements CrudRepository<T, ID>{
 
     protected final EntityManager entityManager;
+    private final Class<T> entityClass;
+
+
+    @SuppressWarnings("unchecked")
+    protected AbstractCrudRepository(EntityManager entityManager) {
+        this.entityManager = entityManager;
+        ParameterizedType type = (ParameterizedType) getClass().getGenericSuperclass();
+        this.entityClass = (Class<T>) type.getActualTypeArguments()[0];
+    }
 
     @Override
     public T save(T t) {
@@ -52,8 +60,9 @@ public abstract class AbstractCrudRepository<T extends BaseDomain<ID>, ID extend
         JpaUtil.executeInTransaction(
                 this.entityManager,
                 () -> {
-//                    TODO impl deleteByIdLogic
-                    return null;
+                    T entity = findById(id).orElseThrow(() ->
+                            new EntityNotFoundException("Entity not found with id: " + id));
+                    entityManager.remove(entity);                    return null;
                 }
         );
     }

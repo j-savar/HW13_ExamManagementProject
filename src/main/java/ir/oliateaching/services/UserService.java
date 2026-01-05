@@ -20,7 +20,7 @@ public class UserService {
     private final UserRepository<User> userRepository;
 
     public UserService(EntityManager entityManager) {
-        this.userRepository = new UserRepositoryImpl<>(entityManager);
+        this.userRepository = new UserRepositoryImpl(entityManager);
     }
 
     public User signUp(UserSignUpDTO dto) {

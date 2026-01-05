@@ -15,22 +15,24 @@ public class ApplicationContext {
 
     private static EntityManager entityManager;
 
+    private ApplicationContext() {
+    }
 
 
-
-    public static ApplicationContext getInstance() {
+    public static synchronized ApplicationContext getInstance() {
         if (context == null) {
             context = new ApplicationContext();
         }
         return context;
     }
 
+
     public static EntityManagerFactory getEntityManagerFactory() {
-        if(entityManagerFactory == null) {
-            try{
+        if (entityManagerFactory == null || !entityManagerFactory.isOpen()) {
+            try {
                 entityManagerFactory = Persistence.createEntityManagerFactory("default");
                 System.out.println("EntityManagerFactory created successfully.");
-            } catch(Exception e){
+            } catch (Exception e) {
                 System.err.println("Error creating EntityManagerFactory: " + e.getMessage());
                 throw new RuntimeException("Error creating EntityManagerFactory", e);
             }
@@ -39,10 +41,11 @@ public class ApplicationContext {
     }
 
     public static EntityManager getEntityManager() {
-        if (Objects.isNull(entityManager)) {
-            entityManager = getEntityManagerFactory().createEntityManager();
-        }
-        return entityManager;
+//        if (Objects.isNull(entityManager)) {
+//            entityManager = getEntityManagerFactory().createEntityManager();
+//        }
+//        return entityManager;
+        return getEntityManagerFactory().createEntityManager();
     }
 
     public static void shutdown() {

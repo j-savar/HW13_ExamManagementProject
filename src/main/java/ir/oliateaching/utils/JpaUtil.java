@@ -11,14 +11,28 @@ public class JpaUtil {
 
     public static <E> E executeInTransaction(EntityManager entityManager, Supplier<E> logicSupplier) {
         boolean shouldCommit = false;
-        if (!entityManager.getTransaction().isActive()) {
-            entityManager.getTransaction().begin();
-            shouldCommit = true;
+        try {
+            if (!entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().begin();
+                shouldCommit = true;
+            }
+            E result = logicSupplier.get();
+            if (shouldCommit && entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().commit();
+            }
+            return result;
+        } catch (Exception e) {
+            if (shouldCommit && entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+            }
+            throw new RuntimeException("Transaction failed: " + e.getMessage(), e);
         }
-        E result = logicSupplier.get();
-        if (shouldCommit) {
-            entityManager.getTransaction().commit();
-        }
-        return result;
+    }
+
+    public static void executeInTransaction(EntityManager entityManager, Runnable logic) {
+        executeInTransaction(entityManager, () -> {
+            logic.run();
+            return null;
+        });
     }
 }

@@ -18,7 +18,7 @@ public class AdminService {
     private final CourseService courseService;
 
     public AdminService(EntityManager entityManager) {
-        this.userRepository = new UserRepositoryImpl<>(entityManager);
+        this.userRepository = new UserRepositoryImpl(entityManager);
         this.userService = new UserService(entityManager);
         this.courseService = new CourseService(entityManager);
     }

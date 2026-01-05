@@ -3,7 +3,6 @@ package ir.oliateaching.repositories;
 import ir.oliateaching.domains.*;
 import ir.oliateaching.enums.CourseStatus;
 import ir.oliateaching.repositories.base.AbstractCrudRepository;
-import ir.oliateaching.utils.ApplicationContext;
 import ir.oliateaching.utils.JpaUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
@@ -16,6 +15,7 @@ import java.util.Optional;
 
 public class CourseRepositoryImpl extends AbstractCrudRepository<Course, Long>
         implements CourseRepository{
+
     public CourseRepositoryImpl(EntityManager entityManager) {
         super(entityManager);
     }
@@ -72,12 +72,15 @@ public class CourseRepositoryImpl extends AbstractCrudRepository<Course, Long>
         CriteriaQuery<Course> query = cb.createQuery(Course.class);
         Root<Course> courseRoot = query.from(Course.class);
         LocalDate today = LocalDate.now();
-        Predicate statusActive = cb.equal(courseRoot.get(Course_.status), "ACTIVE");
+
+        Predicate statusActive = cb.equal(courseRoot.get(Course_.status), CourseStatus.ACTIVE);
         Predicate startDateCondition = cb.lessThanOrEqualTo(courseRoot.get(Course_.startDate), today);
         Predicate endDateCondition = cb.greaterThanOrEqualTo(courseRoot.get(Course_.endDate), today);
         Predicate finalCondition = cb.and(statusActive, startDateCondition, endDateCondition);
+
         query.where(finalCondition);
         query.orderBy(cb.asc(courseRoot.get(Course_.startDate)));
+
         return entityManager.createQuery(query).getResultList();
     }
 
@@ -87,10 +90,13 @@ public class CourseRepositoryImpl extends AbstractCrudRepository<Course, Long>
         CriteriaQuery<Course> query = cb.createQuery(Course.class);
         Root<Course> courseRoot = query.from(Course.class);
         LocalDate today = LocalDate.now();
-        Predicate statusPlanned = cb.equal(courseRoot.get(Course_.status), "PLANNED");
+
+        Predicate statusPlanned = cb.equal(courseRoot.get(Course_.status), CourseStatus.PLANNED);
         Predicate startDateFuture = cb.greaterThan(courseRoot.get(Course_.startDate), today);
+
         query.where(cb.and(statusPlanned, startDateFuture));
         query.orderBy(cb.asc(courseRoot.get(Course_.startDate)));
+
         return entityManager.createQuery(query).getResultList();
     }
 

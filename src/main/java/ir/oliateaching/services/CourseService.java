@@ -25,7 +25,7 @@ public class CourseService {
 
     public CourseService(EntityManager entityManager) {
         this.courseRepository = new CourseRepositoryImpl(entityManager);
-        this.userRepository = new UserRepositoryImpl<>(entityManager);
+        this.userRepository = new UserRepositoryImpl(entityManager);
     }
 
     public Course createCourse(CourseDTO dto) {

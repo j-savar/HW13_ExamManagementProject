@@ -115,6 +115,7 @@ public class ExamSystemApp {
                 if (!currentUser.isApproved()) {
                     System.out.println("⚠️  Your account is pending approval. Please wait for admin approval.");
                     currentUser = null;
+                    updateUserRoles();
                 }
             }
         } else {
