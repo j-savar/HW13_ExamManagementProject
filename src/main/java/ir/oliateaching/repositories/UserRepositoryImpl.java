@@ -17,7 +17,7 @@ import jakarta.persistence.criteria.Root;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class UserRepositoryImpl<T extends User> extends AbstractCrudRepository<T, Long>
+public class UserRepositoryImpl<T extends User> extends AbstractCrudRepository<T, Long>
         implements UserRepository<T>{
 
     public UserRepositoryImpl(EntityManager entityManager) {super(entityManager);}
@@ -192,4 +192,8 @@ public abstract class UserRepositoryImpl<T extends User> extends AbstractCrudRep
         return findByUsername(teacherCode);
     }
 
+    @Override
+    protected Class<T> getEntityClass() {
+        return null;
+    }
 }
