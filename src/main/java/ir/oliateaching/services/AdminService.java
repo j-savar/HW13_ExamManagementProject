@@ -34,7 +34,7 @@ public class AdminService {
                     "Administrator",
                     "admin@university.edu"
             );
-            admin.setPhoneNumber("09123456789");
+            admin.setPhoneNumber("09113074763");
             admin.setNationalId("1234567890");
             admin.setAdminLevel(1);
             admin.setDepartment("IT Department");

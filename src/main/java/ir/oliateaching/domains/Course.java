@@ -15,12 +15,12 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = Course.TABLE_NAME)
-@DiscriminatorValue(Course.DISCRIMINATOR_VALUE)
-//@PrimaryKeyJoinColumn(name = Course.USER_ID_COLUMN)
+//@DiscriminatorValue(Course.DISCRIMINATOR_VALUE)
+//@PrimaryKeyJoinColumn(name = Course.PRIMARY_KEY_JOIN_COLUMN)
 public class Course extends BaseDomain<Long> {
 
     public static final String TABLE_NAME = "courses";
-    public static final String DISCRIMINATOR_VALUE = "COURSE";
+    //public static final String PRIMARY_KEY_JOIN_COLUMN = "user_id";
     public static final String STUDENT_ID_COLUMN = "student_id";
     public static final String COURSE_CODE_COLUMN = "course_code";
     public static final String TITLE_COLUMN = "title";
@@ -60,6 +60,9 @@ public class Course extends BaseDomain<Long> {
     @Column(name = CREDIT_COLUMN)
     private Integer credit;
 
+
+
+
     @ManyToOne
     @JoinColumn(name = TEACHER_ID_COLUMN)
     private Teacher teacher;
@@ -70,8 +73,11 @@ public class Course extends BaseDomain<Long> {
             joinColumns = @JoinColumn(name = COURSE_ID_COLUMN),
             inverseJoinColumns = @JoinColumn(name = STUDENT_ID_COLUMN)
     )
-
     private List<Student> students = new ArrayList<>();
+
+
+
+
 
     @Column(name = CREATED_AT_COLUMN, nullable = false)
     private LocalDate createdAt;

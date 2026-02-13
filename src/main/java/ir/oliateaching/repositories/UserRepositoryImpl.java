@@ -29,7 +29,7 @@ public class UserRepositoryImpl extends AbstractCrudRepository<User, Long>
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Long> query = cb.createQuery(Long.class);
         Root<User> root = query.from(User.class);
-        query.where(cb.equal(root.get(User_.username), username))
+        query.where(cb.equal(root.get(User_.USERNAME), username))
                 .select(cb.count(root));
         return entityManager.createQuery(query).getSingleResult() > 0;
     }
@@ -39,7 +39,7 @@ public class UserRepositoryImpl extends AbstractCrudRepository<User, Long>
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Long> query = cb.createQuery(Long.class);
         Root<User> root = query.from(User.class);
-        query.where(cb.equal(root.get(User_.email), email))
+        query.where(cb.equal(root.get(User_.EMAIL), email))
                 .select(cb.count(root));
         return entityManager.createQuery(query).getSingleResult() > 0;
     }
@@ -49,7 +49,7 @@ public class UserRepositoryImpl extends AbstractCrudRepository<User, Long>
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Long> query = cb.createQuery(Long.class);
         Root<User> root = query.from(User.class);
-        query.where(cb.equal(root.get(User_.nationalId), nationalId))
+        query.where(cb.equal(root.get(User_.NATIONAL_ID), nationalId))
                 .select(cb.count(root));
         return entityManager.createQuery(query).getSingleResult() > 0;
     }
@@ -59,7 +59,7 @@ public class UserRepositoryImpl extends AbstractCrudRepository<User, Long>
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<User> query = cb.createQuery(User.class);
         Root<User> root = query.from(User.class);
-        query.where(cb.equal(root.get(User_.username), username));
+        query.where(cb.equal(root.get(User_.USERNAME), username));
 
         try {
             User result = entityManager.createQuery(query).getSingleResult();
@@ -74,7 +74,7 @@ public class UserRepositoryImpl extends AbstractCrudRepository<User, Long>
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<User> query = cb.createQuery(User.class);
         Root<User> root = query.from(User.class);
-        query.where(cb.equal(root.get(User_.email), email));
+        query.where(cb.equal(root.get(User_.EMAIL), email));
 
         try {
             User result = entityManager.createQuery(query).getSingleResult();
@@ -89,7 +89,7 @@ public class UserRepositoryImpl extends AbstractCrudRepository<User, Long>
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<User> query = cb.createQuery(User.class);
         Root<User> root = query.from(User.class);
-        query.where(cb.equal(root.get(User_.role), role));
+        query.where(cb.equal(root.get(User_.ROLE), role));
 
         return entityManager.createQuery(query).getResultList();
     }
@@ -99,7 +99,7 @@ public class UserRepositoryImpl extends AbstractCrudRepository<User, Long>
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<User> query = cb.createQuery(User.class);
         Root<User> root = query.from(User.class);
-        query.where(cb.equal(root.get(User_.status), status));
+        query.where(cb.equal(root.get(User_.STATUS), status));
 
         return entityManager.createQuery(query).getResultList();
     }
@@ -110,8 +110,8 @@ public class UserRepositoryImpl extends AbstractCrudRepository<User, Long>
         CriteriaQuery<User> query = cb.createQuery(User.class);
         Root<User> root = query.from(User.class);
 
-        Predicate rolePredicate = cb.equal(root.get(User_.role), role);
-        Predicate statusPredicate = cb.equal(root.get(User_.status), status);
+        Predicate rolePredicate = cb.equal(root.get(User_.ROLE), role);
+        Predicate statusPredicate = cb.equal(root.get(User_.STATUS), status);
 
         query.where(cb.and(rolePredicate, statusPredicate));
 
@@ -128,31 +128,31 @@ public class UserRepositoryImpl extends AbstractCrudRepository<User, Long>
 
         if (firstName != null && !firstName.trim().isEmpty()) {
             predicates.add(cb.like(
-                    cb.lower(root.get(User_.firstName)),
+                    cb.lower(root.get(User_.FIRST_NAME)),
                     "%" + firstName.toLowerCase() + "%"
             ));
         }
 
         if (lastName != null && !lastName.trim().isEmpty()) {
             predicates.add(cb.like(
-                    cb.lower(root.get(User_.lastName)),
+                    cb.lower(root.get(User_.LAST_NAME)),
                     "%" + lastName.toLowerCase() + "%"
             ));
         }
 
         if (role != null) {
-            predicates.add(cb.equal(root.get(User_.role), role));
+            predicates.add(cb.equal(root.get(User_.ROLE), role));
         }
 
         if (status != null) {
-            predicates.add(cb.equal(root.get(User_.status), status));
+            predicates.add(cb.equal(root.get(User_.STATUS), status));
         }
 
         if (!predicates.isEmpty()) {
             query.where(cb.and(predicates.toArray(new Predicate[0])));
         }
 
-        query.orderBy(cb.asc(root.get(User_.lastName)), cb.asc(root.get(User_.firstName)));
+        query.orderBy(cb.asc(root.get(User_.LAST_NAME)), cb.asc(root.get(User_.FIRST_NAME)));
 
         return entityManager.createQuery(query).getResultList();
     }
@@ -208,9 +208,9 @@ public class UserRepositoryImpl extends AbstractCrudRepository<User, Long>
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    //@SuppressWarnings("unchecked")
     protected Class<User> getEntityClass() {
-        ParameterizedType type = (ParameterizedType) getClass().getGenericSuperclass();
-        return (Class<User>) type.getActualTypeArguments()[0];
+        //ParameterizedType type = (ParameterizedType) getClass().getGenericSuperclass();
+        return User.class; //(Class<User>) type.getActualTypeArguments()[0];
     }
 }

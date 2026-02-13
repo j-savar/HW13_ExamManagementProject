@@ -6,6 +6,7 @@ import ir.oliateaching.enums.UserRole;
 import ir.oliateaching.enums.UserStatus;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.internal.NaturalIdHelper;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -16,17 +17,25 @@ import java.util.Objects;
 @Entity
 @Table(name = User.TABLE_NAME)
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = User.USER_TYPE_COLUMN, discriminatorType = DiscriminatorType.STRING)
+//@DiscriminatorColumn(name = User.USER_TYPE_COLUMN, discriminatorType = DiscriminatorType.STRING)
 public abstract class User extends BaseDomain<Long> {
 
     public static final String TABLE_NAME = "users";
-    public static final String USER_TYPE_COLUMN = "user_type";
+    //public static final String USER_TYPE_COLUMN = "user_type";
 
+    public static final String USERNAME_COLUMN = "username";
+    public static final String PASSWORD_COLUMN = "password";
     public static final String FIRST_NAME_COLUMN = "first_name";
     public static final String LAST_NAME_COLUMN = "last_name";
     public static final String EMAIL_COLUMN = "email";
-    public static final String USERNAME_COLUMN = "username";
-    public static final String PASSWORD_COLUMN = "password";
+    public static final String PHONE_NUMBER_COLUMN = "phone_number";
+    public static final String NATIONAL_ID_COLUMN = "national_id";
+    public static final String ROLE_COLUMN = "role";
+    public static final String STATUS_COLUMN = "status";
+    public static final String REGISTRATION_DATE_COLUMN = "registration_date";
+    public static final String APPROVED_DATE_COLUMN = "approved_date";
+    public static final String APPROVED_BY_COLUMN = "approved_by";
+
 
 
     @Column(name = USERNAME_COLUMN, nullable = false, unique = true, length = 50)
@@ -44,27 +53,27 @@ public abstract class User extends BaseDomain<Long> {
     @Column(name = EMAIL_COLUMN, nullable = false, length = 50)
     private String email;
 
-    @Column(name = "phone_number", length = 11)
+    @Column(name = PHONE_NUMBER_COLUMN, length = 11)
     private String phoneNumber;
 
-    @Column(name = "national_id", unique = true, length = 10)
+    @Column(name = NATIONAL_ID_COLUMN, unique = true, length = 10)
     private String nationalId;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "role", nullable = false)
+    @Column(name = ROLE_COLUMN, nullable = false)
     private UserRole role;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false)
+    @Column(name = STATUS_COLUMN, nullable = false)
     private UserStatus status;
 
-    @Column(name = "registration_date", nullable = false)
+    @Column(name = REGISTRATION_DATE_COLUMN, nullable = false)
     private LocalDateTime registrationDate;
 
-    @Column(name = "approved_date")
+    @Column(name = APPROVED_DATE_COLUMN)
     private LocalDateTime approvedDate;
 
-    @Column(name = "approved_by")
+    @Column(name = APPROVED_BY_COLUMN)
     private Long approvedBy;
 
     protected User() {}

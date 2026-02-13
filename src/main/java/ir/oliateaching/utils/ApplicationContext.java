@@ -10,9 +10,7 @@ import java.util.Objects;
 public class ApplicationContext {
 
     private static ApplicationContext context;
-
     private static EntityManagerFactory entityManagerFactory;
-
     private static EntityManager entityManager;
 
     private ApplicationContext() {

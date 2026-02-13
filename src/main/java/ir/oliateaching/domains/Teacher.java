@@ -4,6 +4,7 @@ package ir.oliateaching.domains;
 import ir.oliateaching.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -17,13 +18,13 @@ import java.util.List;
 @Setter
 @Getter
 @Table(name = Teacher.TABLE_NAME)
-@DiscriminatorValue(Teacher.DISCRIMINATOR_VALUE)
+//@DiscriminatorValue(Teacher.DISCRIMINATOR_VALUE)
 @PrimaryKeyJoinColumn(name = Teacher.PRIMARY_KEY_JOIN_COLUMN)
 public class Teacher extends User {
 
     public static final String TABLE_NAME = "teachers";
     public static final String PRIMARY_KEY_JOIN_COLUMN = "user_id";
-    public static final String DISCRIMINATOR_VALUE = "TEACHER";
+    //public static final String DISCRIMINATOR_VALUE = "TEACHER";
 
     public static final String TEACHER_CODE_COLUMN = "teacher_code";
     public static final String EXPERTISE_COLUMN = "expertise";

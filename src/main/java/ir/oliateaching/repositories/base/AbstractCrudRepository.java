@@ -20,19 +20,13 @@ import java.util.Objects;
 import java.util.Optional;
 
 
-@RequiredArgsConstructor
 public abstract class AbstractCrudRepository<T extends BaseDomain<ID>, ID extends Number>
         implements CrudRepository<T, ID>{
 
     protected final EntityManager entityManager;
-    private final Class<T> entityClass;
 
-
-    @SuppressWarnings("unchecked")
     protected AbstractCrudRepository(EntityManager entityManager) {
         this.entityManager = entityManager;
-        ParameterizedType type = (ParameterizedType) getClass().getGenericSuperclass();
-        this.entityClass = (Class<T>) type.getActualTypeArguments()[0];
     }
 
     @Override
@@ -62,7 +56,8 @@ public abstract class AbstractCrudRepository<T extends BaseDomain<ID>, ID extend
                 () -> {
                     T entity = findById(id).orElseThrow(() ->
                             new EntityNotFoundException("Entity not found with id: " + id));
-                    entityManager.remove(entity);                    return null;
+                    entityManager.remove(entity);
+                    return null;
                 }
         );
     }

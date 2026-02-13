@@ -4,6 +4,7 @@ package ir.oliateaching.domains;
 import ir.oliateaching.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
@@ -16,26 +17,27 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = Student.TABLE_NAME)
-@DiscriminatorValue(Student.DISCRIMINATOR_VALUE)
-@PrimaryKeyJoinColumn(name = Student.USER_ID_COLUMN)
+//@DiscriminatorValue(Student.DISCRIMINATOR_VALUE)
+@PrimaryKeyJoinColumn(name = Student.PRIMARY_KEY_JOIN_COLUMN)
+//@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Student extends User {
 
     public static final String TABLE_NAME = "students";
-    public static final String DISCRIMINATOR_VALUE = "STUDENT";
-    public static final String USER_ID_COLUMN = "user_id";
+    //public static final String DISCRIMINATOR_VALUE = "STUDENT";
+    public static final String PRIMARY_KEY_JOIN_COLUMN = "user_id";
 
     public static final String STUDENT_CODE_COLUMN = "student_code";
     public static final String FIELD_OF_STUDY_COLUMN = "field_of_study";
     public static final String ENTRY_YEAR_COLUMN = "entry_year";
 
 
-    @Column(name = STUDENT_CODE_COLUMN, unique = true, nullable = false, length = 10)
+    @Column(name = STUDENT_CODE_COLUMN, unique = true, length = 10)
     private String studentCode;
 
-    @Column(name = FIELD_OF_STUDY_COLUMN, nullable = false, length = 100)
+    @Column(name = FIELD_OF_STUDY_COLUMN, length = 100)
     private String fieldOfStudy;
 
-    @Column(name = ENTRY_YEAR_COLUMN, nullable = false)
+    @Column(name = ENTRY_YEAR_COLUMN)
     private Integer entryYear;
 
     @ManyToMany(mappedBy = TABLE_NAME)
