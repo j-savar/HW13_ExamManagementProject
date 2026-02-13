@@ -17,6 +17,8 @@ import java.util.Scanner;
 
 public class ExamSystemApp {
 
+
+
     private static final Scanner scanner = new Scanner(System.in);
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
@@ -29,10 +31,18 @@ public class ExamSystemApp {
     private static boolean isTeacher;
     private static boolean isStudent;
 
+
+
     public static void main(String[] args) {
+
         try {
+            // Initialize all application services such UserService, CurseService and ... .
             initializeServices();
+
+            // Initialize default application Admin User
             adminService.initializeAdminAccount();
+
+
 
             System.out.println("🎓 Welcome to Exam Management System 🎓");
             System.out.println("=======================================");
@@ -59,14 +69,19 @@ public class ExamSystemApp {
         }
     }
 
+
     private static void initializeServices() {
+
         EntityManager entityManager = ApplicationContext.getEntityManager();
         userService = new UserService(entityManager);
         courseService = new CourseService(entityManager);
         adminService = new AdminService(entityManager);
     }
 
+
+
     private static void showMainMenu() {
+
         System.out.println("\n=== MAIN MENU ===");
         System.out.println("1. Login");
         System.out.println("2. Sign Up");
@@ -94,9 +109,10 @@ public class ExamSystemApp {
         }
     }
 
-    private static void login() {
-        System.out.println("\n=== LOGIN ===");
 
+    private static void login() {
+
+        System.out.println("\n=== LOGIN ===");
         System.out.print("Username: ");
         String username = scanner.nextLine().trim();
 
@@ -123,9 +139,10 @@ public class ExamSystemApp {
         }
     }
 
-    private static void signUp() {
-        System.out.println("\n=== SIGN UP ===");
 
+    private static void signUp() {
+
+        System.out.println("\n=== SIGN UP ===");
         UserSignUpDTO dto = new UserSignUpDTO();
 
         try {
@@ -206,7 +223,9 @@ public class ExamSystemApp {
         }
     }
 
+
     private static void updateUserRoles() {
+
         if (currentUser != null) {
             isAdmin = currentUser.getRole() == UserRole.ADMIN;
             isTeacher = currentUser.getRole() == UserRole.TEACHER;
@@ -214,7 +233,9 @@ public class ExamSystemApp {
         }
     }
 
+
     private static void logout() {
+
         System.out.println("\n✅ Logged out successfully!");
         currentUser = null;
         isAdmin = false;
@@ -222,8 +243,12 @@ public class ExamSystemApp {
         isStudent = false;
     }
 
-    // ==================== ADMIN MENU ====================
+
+
+
+    // ==================== ADMIN ====================
     private static void showAdminMenu() {
+
         System.out.println("\n=== ADMIN PANEL ===");
         System.out.println("Logged in as: " + currentUser.getFullName());
         System.out.println("1. Manage Users");
@@ -256,7 +281,10 @@ public class ExamSystemApp {
         }
     }
 
+
+
     private static void manageUsers() {
+
         boolean back = false;
 
         while (!back) {
@@ -304,7 +332,10 @@ public class ExamSystemApp {
         }
     }
 
+
+
     private static void viewAllUsers() {
+
         List<User> users = adminService.getAllUsersForAdmin();
 
         System.out.println("\n=== ALL USERS ===");
@@ -329,7 +360,10 @@ public class ExamSystemApp {
         }
     }
 
+
+
     private static void viewPendingApprovals() {
+
         List<User> pendingUsers = adminService.getPendingRegistrations();
 
         System.out.println("\n=== PENDING APPROVALS ===");
@@ -352,7 +386,10 @@ public class ExamSystemApp {
         }
     }
 
+
+
     private static void approveRejectUser() {
+
         System.out.print("Enter User ID to approve/reject: ");
         try {
             Long userId = Long.parseLong(scanner.nextLine());
@@ -392,8 +429,12 @@ public class ExamSystemApp {
         }
     }
 
+
+
     private static void editUser() {
+
         System.out.print("Enter User ID to edit: ");
+
         try {
             Long userId = Long.parseLong(scanner.nextLine());
 
@@ -471,7 +512,10 @@ public class ExamSystemApp {
         }
     }
 
+
+
     private static void searchUsers() {
+
         System.out.println("\n=== SEARCH USERS ===");
 
         System.out.print("First Name (optional, press Enter to skip): ");
@@ -528,7 +572,10 @@ public class ExamSystemApp {
         }
     }
 
+
+
     private static void deleteUser() {
+
         System.out.print("Enter User ID to delete: ");
         try {
             Long userId = Long.parseLong(scanner.nextLine());
@@ -555,7 +602,10 @@ public class ExamSystemApp {
         }
     }
 
+
+
     private static void manageCourses() {
+
         boolean back = false;
 
         while (!back) {
@@ -611,7 +661,10 @@ public class ExamSystemApp {
         }
     }
 
+
+
     private static void viewAllCourses() {
+
         List<Course> courses = adminService.getAllCourses();
 
         System.out.println("\n=== ALL COURSES ===");
@@ -637,7 +690,10 @@ public class ExamSystemApp {
         }
     }
 
+
+
     private static void createCourse() {
+
         System.out.println("\n=== CREATE NEW COURSE ===");
 
         CourseDTO dto = new CourseDTO();
@@ -689,7 +745,10 @@ public class ExamSystemApp {
         }
     }
 
+
+
     private static void editCourse() {
+
         System.out.print("Enter Course ID to edit: ");
         try {
             Long courseId = Long.parseLong(scanner.nextLine());
@@ -787,7 +846,10 @@ public class ExamSystemApp {
         }
     }
 
+
+
     private static void assignTeacherToCourse() {
+
         try {
             System.out.print("Enter Course ID: ");
             Long courseId = Long.parseLong(scanner.nextLine());
@@ -805,7 +867,10 @@ public class ExamSystemApp {
         }
     }
 
+
+
     private static void addStudentToCourse() {
+
         try {
             System.out.print("Enter Course ID: ");
             Long courseId = Long.parseLong(scanner.nextLine());
@@ -823,7 +888,10 @@ public class ExamSystemApp {
         }
     }
 
+
+
     private static void viewCourseParticipants() {
+
         System.out.print("Enter Course ID: ");
         try {
             Long courseId = Long.parseLong(scanner.nextLine());
@@ -869,7 +937,10 @@ public class ExamSystemApp {
         }
     }
 
+
+
     private static void searchCourses() {
+
         System.out.println("\n=== SEARCH COURSES ===");
 
         System.out.print("Title (optional, press Enter to skip): ");
@@ -934,7 +1005,10 @@ public class ExamSystemApp {
         }
     }
 
+
+
     private static void deleteCourse() {
+
         System.out.print("Enter Course ID to delete: ");
         try {
             Long courseId = Long.parseLong(scanner.nextLine());
@@ -962,13 +1036,19 @@ public class ExamSystemApp {
         }
     }
 
+
+
     private static void viewStatistics() {
+
         AdminService.AdminStatistics stats = adminService.getStatistics();
         System.out.println("\n" + stats.toString());
     }
 
-    // ==================== TEACHER MENU ====================
+
+
+    // ==================== TEACHER ====================
     private static void showTeacherMenu() {
+
         System.out.println("\n=== TEACHER PANEL ===");
         System.out.println("Logged in as: " + currentUser.getFullName());
         System.out.println("1. View My Courses");
@@ -1001,7 +1081,9 @@ public class ExamSystemApp {
         }
     }
 
+
     private static void viewTeacherCourses() {
+
         List<Course> courses = courseService.getCoursesByTeacher(currentUser.getId());
 
         System.out.println("\n=== MY COURSES ===");
@@ -1027,7 +1109,10 @@ public class ExamSystemApp {
         }
     }
 
+
+
     private static void viewTeacherCourseDetails() {
+
         System.out.print("Enter Course ID: ");
         try {
             Long courseId = Long.parseLong(scanner.nextLine());
@@ -1083,8 +1168,12 @@ public class ExamSystemApp {
         }
     }
 
+
+
+
     // ==================== STUDENT MENU ====================
     private static void showStudentMenu() {
+
         System.out.println("\n=== STUDENT PANEL ===");
         System.out.println("Logged in as: " + currentUser.getFullName());
         System.out.println("1. View My Courses");
@@ -1117,7 +1206,10 @@ public class ExamSystemApp {
         }
     }
 
+
+
     private static void viewStudentCourses() {
+
         List<Course> courses = courseService.getCoursesByStudent(currentUser.getId());
 
         System.out.println("\n=== MY COURSES ===");
@@ -1143,7 +1235,10 @@ public class ExamSystemApp {
         }
     }
 
+
+
     private static void viewAvailableCourses() {
+
         List<Course> courses = courseService.getActiveCourses();
 
         System.out.println("\n=== AVAILABLE ACTIVE COURSES ===");
@@ -1177,8 +1272,11 @@ public class ExamSystemApp {
         }
     }
 
+
+
     // ==================== COMMON FUNCTIONS ====================
     private static void viewProfile() {
+
         System.out.println("\n=== MY PROFILE ===");
         System.out.println("ID: " + currentUser.getId());
         System.out.println("Username: " + currentUser.getUsername());

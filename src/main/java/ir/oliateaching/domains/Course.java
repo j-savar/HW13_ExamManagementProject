@@ -15,12 +15,9 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = Course.TABLE_NAME)
-//@DiscriminatorValue(Course.DISCRIMINATOR_VALUE)
-//@PrimaryKeyJoinColumn(name = Course.PRIMARY_KEY_JOIN_COLUMN)
 public class Course extends BaseDomain<Long> {
 
     public static final String TABLE_NAME = "courses";
-    //public static final String PRIMARY_KEY_JOIN_COLUMN = "user_id";
     public static final String STUDENT_ID_COLUMN = "student_id";
     public static final String COURSE_CODE_COLUMN = "course_code";
     public static final String TITLE_COLUMN = "title";
@@ -34,7 +31,6 @@ public class Course extends BaseDomain<Long> {
     public static final String COURSE_ID_COLUMN = "course_id";
     public static final String CREATED_AT_COLUMN = "created_at";
     public static final String UPDATED_AT_COLUMN = "updated_at";
-
 
 
 
@@ -62,7 +58,6 @@ public class Course extends BaseDomain<Long> {
 
 
 
-
     @ManyToOne
     @JoinColumn(name = TEACHER_ID_COLUMN)
     private Teacher teacher;
@@ -76,9 +71,6 @@ public class Course extends BaseDomain<Long> {
     private List<Student> students = new ArrayList<>();
 
 
-
-
-
     @Column(name = CREATED_AT_COLUMN, nullable = false)
     private LocalDate createdAt;
 
@@ -90,7 +82,8 @@ public class Course extends BaseDomain<Long> {
         this.createdAt = LocalDate.now();
     }
 
-    public Course(String courseCode, String title, LocalDate startDate, LocalDate endDate) {
+    public Course(String courseCode, String title, LocalDate startDate
+            , LocalDate endDate) {
         this();
         this.courseCode = courseCode;
         this.title = title;
@@ -128,10 +121,6 @@ public class Course extends BaseDomain<Long> {
 
     public int getStudentCount() {
         return students.size();
-    }
-
-    public boolean isActive() {
-        return status == CourseStatus.ACTIVE;
     }
 
     @Override

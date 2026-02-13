@@ -11,13 +11,11 @@ import lombok.Setter;
 @Setter
 @Getter
 @Table(name = Admin.TABLE_NAME)
-//@DiscriminatorValue(Admin.DISCRIMINATOR_VALUE)
 @PrimaryKeyJoinColumn(name = Admin.PRIMARY_KEY_JOIN_COLUMN)
 public class Admin extends User {
 
     public static final String TABLE_NAME = "admins";
     public static final String PRIMARY_KEY_JOIN_COLUMN = "user_id";
-    //public static final String DISCRIMINATOR_VALUE = "ADMIN";
     public static final String ADMIN_LEVEL_COLUMN = "admin_level";
     public static final String DEPARTMENT_COLUMN = "department";
 

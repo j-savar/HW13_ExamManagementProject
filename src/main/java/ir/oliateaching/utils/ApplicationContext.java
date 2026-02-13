@@ -9,21 +9,10 @@ import java.util.Objects;
 
 public class ApplicationContext {
 
-    private static ApplicationContext context;
     private static EntityManagerFactory entityManagerFactory;
-    private static EntityManager entityManager;
 
     private ApplicationContext() {
     }
-
-
-    public static synchronized ApplicationContext getInstance() {
-        if (context == null) {
-            context = new ApplicationContext();
-        }
-        return context;
-    }
-
 
     public static EntityManagerFactory getEntityManagerFactory() {
         if (entityManagerFactory == null || !entityManagerFactory.isOpen()) {
@@ -39,10 +28,6 @@ public class ApplicationContext {
     }
 
     public static EntityManager getEntityManager() {
-//        if (Objects.isNull(entityManager)) {
-//            entityManager = getEntityManagerFactory().createEntityManager();
-//        }
-//        return entityManager;
         return getEntityManagerFactory().createEntityManager();
     }
 

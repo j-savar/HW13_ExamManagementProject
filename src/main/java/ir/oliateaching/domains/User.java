@@ -17,11 +17,9 @@ import java.util.Objects;
 @Entity
 @Table(name = User.TABLE_NAME)
 @Inheritance(strategy = InheritanceType.JOINED)
-//@DiscriminatorColumn(name = User.USER_TYPE_COLUMN, discriminatorType = DiscriminatorType.STRING)
 public abstract class User extends BaseDomain<Long> {
 
     public static final String TABLE_NAME = "users";
-    //public static final String USER_TYPE_COLUMN = "user_type";
 
     public static final String USERNAME_COLUMN = "username";
     public static final String PASSWORD_COLUMN = "password";
